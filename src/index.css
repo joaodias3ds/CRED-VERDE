@@ -1,0 +1,154 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --skeleton-base: #E5EAE7;
+    --skeleton-highlight: rgba(255, 255, 255, 0.65);
+  }
+
+  .dark {
+    --skeleton-base: #1B2E25;
+    --skeleton-highlight: rgba(255, 255, 255, 0.09);
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Shimmer animado 1.4s (Seção 5.1) */
+@keyframes cv-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Pulso suave de opacidade para acessibilidade: reduzir movimento (Seção 9) */
+@keyframes cv-pulse-opacity {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Rotação da moeda dourada e preenchimento no BootLogoAnimation (1.6s) */
+@keyframes cv-coin-spin {
+  0% {
+    transform: rotateY(0deg) scale(1);
+  }
+  45% {
+    transform: rotateY(180deg) scale(1.04);
+  }
+  90%, 100% {
+    transform: rotateY(360deg) scale(1);
+  }
+}
+
+@keyframes cv-ring-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.cv-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--skeleton-base);
+}
+
+.cv-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--skeleton-highlight) 50%,
+    transparent 100%
+  );
+  animation: cv-shimmer 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.cv-coin-animate {
+  animation: cv-coin-spin 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-style: preserve-3d;
+}
+
+.cv-ring-animate {
+  animation: cv-ring-spin 1.2s linear infinite;
+}
+
+/* Suporte a "reduzir movimento" do sistema OU preferência manual (Seção 0.6 e 9) */
+@media (prefers-reduced-motion: reduce) {
+  .cv-skeleton::after {
+    animation: none;
+    background: none;
+  }
+  .cv-skeleton {
+    animation: cv-pulse-opacity 2s ease-in-out infinite;
+  }
+  .cv-coin-animate,
+  .cv-ring-animate {
+    animation: none !important;
+  }
+}
+
+html.reduce-motion .cv-skeleton::after {
+  animation: none;
+  background: none;
+}
+
+html.reduce-motion .cv-skeleton {
+  animation: cv-pulse-opacity 2s ease-in-out infinite;
+}
+
+html.reduce-motion .cv-coin-animate,
+html.reduce-motion .cv-ring-animate {
+  animation: none !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

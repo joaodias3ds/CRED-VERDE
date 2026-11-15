@@ -1,0 +1,6 @@
+{
+  "name": "CréditoVerde — Gestão de Empréstimos",
+  "description": "Sistema de gestão de empréstimos, cobranças e parcelas com animações de abertura, estados de carregamento em skeleton e suporte offline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
